@@ -1,16 +1,13 @@
 import React from 'react';
-import Graph from './graph';
-import CountrySelect from './country-select';
-import ParameterSelect from './parameter-select';
+
+import MainData from './country-timeperiod-category-select';
 
 export default function Sidebar() {
   return (
     <div className="sidebar">
       <div className="dropdowns">
-        <CountrySelect />
-        <ParameterSelect />
+        <MainData />
       </div>
-      <Graph />
     </div>
   );
 }

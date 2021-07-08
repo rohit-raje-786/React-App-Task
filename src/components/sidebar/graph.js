@@ -1,39 +1,67 @@
-import React from 'react'
-import { Chart } from 'react-charts'
- 
-export default function Graph() {
-  const data = React.useMemo(
-    () => [
-      {
-        label: 'Series 1',
-        data: [[0, 1], [1, 2], [2, 4], [3, 2], [4, 7]]
-      },
-      {
-        label: 'Series 2',
-        data: [[0, 3], [1, 1], [2, 5], [3, 6], [4, 4]]
-      }
-    ],
-    []
-  )
- 
-  const axes = React.useMemo(
-    () => [
-      { primary: true, type: 'linear', position: 'bottom' },
-      { type: 'linear', position: 'left' }
-    ],
-    []
-  )
- 
+import React, { useState } from 'react';
+
+import { Line } from 'react-chartjs-2';
+
+export default function Graph({ from, to, country, values }) {
+  const [chartData, setChartData] = useState({});
+
+  React.useEffect(() => {
+    chart();
+  }, [from, to, country, values]);
+
+  const chart = () => {
+    console.log(from, to, values);
+    let labels = [];
+    for (let i = from; i <= to; i++) {
+      labels.push(i);
+    }
+
+    setChartData({
+      labels: labels,
+      datasets: [
+        {
+          label: country,
+          data: values,
+          backgroundColor: ['rgba(75, 192, 192, 0.6)'],
+          borderWidth: 4,
+        },
+      ],
+    });
+  };
+
   return (
-    <div
-      style={{
-        width: '400px',
-        height: '300px'
-      }}
-      className="chart"
-    >
-      <p>Example Graph</p>
-      <Chart data={data} axes={axes} />
-    </div>
-  )
+    <>
+      {/* <canvas id="bar-chart"></canvas> */}
+      <Line
+        width={600}
+        height={500}
+        data={chartData}
+        options={{
+          responsive: true,
+          title: { text: 'THICCNESS SCALE', display: true },
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 2,
+                  beginAtZero: true,
+                },
+                gridLines: {
+                  display: false,
+                },
+              },
+            ],
+            xAxes: [
+              {
+                gridLines: {
+                  display: false,
+                },
+              },
+            ],
+          },
+        }}
+      />
+    </>
+  );
 }
